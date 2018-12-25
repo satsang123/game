@@ -1,0 +1,173 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tictactoe;
+
+//necessary imports for GUI
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+/**
+ *
+ * @author Satsang Adhikari
+ */
+
+//ActionListener is a interface superclass that my class implements from which allows us to track user mouse movement
+public class Game implements ActionListener { 
+
+//instantiating window and button objects
+//assigning "X" or "O" as string
+//keeping track of who goes when and also making sure buttons are clicked max 9 times
+//keeping track of who won the round
+    
+JFrame window = new JFrame("TicTacToe");
+JButton button1 = new JButton("");
+JButton button2 = new JButton("");
+JButton button3 = new JButton("");
+JButton button4 = new JButton("");
+JButton button5 = new JButton("");
+JButton button6 = new JButton("");
+JButton button7 = new JButton("");
+JButton button8 = new JButton("");
+JButton button9 = new JButton("");
+String letter = "";
+int count = 0;
+boolean win = false;
+
+
+public Game(){
+//giving window its dimensions
+//setting up 3x3 board
+//adding buttons to window
+//registers instances of my class as a listener which is what .addActionListener(this) does
+
+window.setSize(400,400);
+window.setLayout(new GridLayout(3,3));
+window.add(button1);
+window.add(button2);
+window.add(button3);
+window.add(button4);
+window.add(button5);
+window.add(button6);
+window.add(button7);
+window.add(button8);
+window.add(button9);
+button1.addActionListener(this);
+button2.addActionListener(this);
+button3.addActionListener(this);
+button4.addActionListener(this);
+button5.addActionListener(this);
+button6.addActionListener(this);
+button7.addActionListener(this);
+button8.addActionListener(this);
+button9.addActionListener(this);
+window.setVisible(true);
+
+}   @Override
+//
+    public void actionPerformed(ActionEvent userClick) {
+//checks for count number
+//X always goes first in tictactoe game so it is assigned 1 
+//both users gets to go after one another since X goes first it goes third then fifth then seventh then ninth
+//similarly O goes second, then fourth, then sixth, then eighth, then tenth
+//both users can go up to max of 5 turns in one round
+//keeping these rules in mind this logic was put into code
+
+count++;
+if(count == 1 || count == 3 || count == 5 || count == 7 || count == 9){
+letter = "X";
+} else if(count == 2 || count == 4 || count == 6 || count == 8 || count == 10){
+letter = "O";
+}
+
+//when user clicks on a button program checks the count and is able to determine which letter should be assigned to that button
+
+if(userClick.getSource() == button1){
+button1.setText(letter);
+} else if(userClick.getSource() == button2){
+button2.setText(letter);
+} else if(userClick.getSource() == button3){
+button3.setText(letter);
+} else if(userClick.getSource() == button4){
+button4.setText(letter);
+} else if(userClick.getSource() == button5){
+button5.setText(letter);
+} else if(userClick.getSource() == button6){
+button6.setText(letter);
+} else if(userClick.getSource() == button7){
+button7.setText(letter);
+} else if(userClick.getSource() == button8){
+button8.setText(letter);
+} else if(userClick.getSource() == button9){
+button9.setText(letter);
+}
+//determine who wins
+
+//horizontal wins occur when one user clicks on a row consecutively like: X X X
+if (button1.getText() == button2.getText() && button2.getText() == button3.getText() && button1.getText() != "") { 
+    win = true;
+}
+else if (button4.getText() == button5.getText() && button5.getText() == button6.getText() && button4.getText() != "") {
+    win = true;
+}
+else if (button7.getText() == button8.getText() && button8.getText() == button9.getText() && button7.getText() != "") {
+    win = true;
+}
+
+/*vertical wins occur when one user clicks on a column consecutively  like:
+X
+X
+X
+*/
+else if (button1.getText() == button4.getText() && button4.getText() == button7.getText() && button1.getText() != "") {
+    win = true;
+}
+else if (button2.getText() == button5.getText() && button5.getText() == button8.getText() && button2.getText() != "") {
+    win = true;
+}
+else if (button3.getText() == button6.getText() && button6.getText() == button9.getText() && button3.getText() != "") {
+    win = true;
+}
+
+/*diagonal wins occur when one user clicks clicks on a button diagonally like:
+X
+    X
+        X
+*/
+else if (button1.getText() == button5.getText() && button5.getText() == button9.getText() && button1.getText() != "") {
+    win = true;
+}
+else if (button3.getText() == button5.getText() && button5.getText() == button7.getText() && button3.getText() != "") {
+    win = true;
+}
+
+//if nobody plays there is no win
+else {
+    win = false;
+}
+
+
+//when one user wins
+if(win == true){
+JOptionPane.showMessageDialog(null, letter + " WINS! Play Again?");
+new Game();
+}
+//tie game when max count of 9 is reached and there is no win for either user
+else if(count == 9 && win == false){
+JOptionPane.showMessageDialog(null, "Tie Game! Play Again?");
+new Game();
+}
+
+}
+    
+public static void main(String[] args){ 
+//runs application in new window
+    new Game();
+}
+}
+
+       
+    
